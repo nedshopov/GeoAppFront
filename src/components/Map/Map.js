@@ -42,14 +42,18 @@ function Map() {
         setCategories(prevState => prevState.filter(x => x !== checkboxCategory))
     }, []);
 
-    const updateRadiusHandler = useCallback(debounce((radius) => setFinalRadius(radius)
+    const updateRadiusHandler = useCallback(debounce((radius) =>
+        setFinalRadius(radius)
         , 1000), []);
 
     useEffect(() => {
         if (currentLocation !== null) {
             remoteDataService.getInRadius(categories, currentLocation.lat, currentLocation.lng, finalRadius)
                 .then(res => {
-                    setFetchedPlaces(res.data);
+                    // TODO: update in future
+                    if (res.data.length === 2 && res.data[0]) { setFetchedPlaces(res.data[0]); }
+                    else { setFetchedPlaces(res.data); }
+
                 })
                 .catch(err => console.log(err))
         }
@@ -68,8 +72,8 @@ function Map() {
                     name="radius"
                     id="radius"
                     onChange={(e) => {
-                        setRadius(e.target.value)
-                        updateRadiusHandler(e.target.value)
+                        setRadius(Number(e.target.value))
+                        updateRadiusHandler(Number(e.target.value))
                     }}
                 />
                 <span>{`${radius} km`}</span>
