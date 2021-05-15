@@ -1,5 +1,4 @@
 import axios from 'axios';
-import categoriesList from '../config/categories';
 
 const proxy = 'https://cors-anywhere.herokuapp.com/';
 const baseURL = 'https://nedshopov.com/geoapi/';
