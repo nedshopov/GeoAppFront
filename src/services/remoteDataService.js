@@ -1,17 +1,16 @@
 import axios from 'axios';
 
-const proxy = 'https://cors-anywhere.herokuapp.com/';
 const baseURL = 'https://nedshopov.com/geoapi/';
 
 function getAll() {
     return axios
-        .get(proxy + baseURL + `objects/all`);
+        .get(baseURL + `objects/all`);
 }
 
 function getInRadius(categories, lat, lng, radius) {
     categories = categories.join(`,`);
     return axios
-        .get(proxy + baseURL + `filter`, {
+        .get(baseURL + `filter`, {
             params: {
                 categories,
                 lat,
