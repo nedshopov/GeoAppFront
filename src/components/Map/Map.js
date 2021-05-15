@@ -1,5 +1,5 @@
 // LIBRARIES
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import debounce from 'lodash/debounce';
 
 // CSS
@@ -41,9 +41,10 @@ function Map() {
         setCategories(prevState => prevState.filter(x => x !== checkboxCategory))
     }, []);
 
-    const updateRadiusHandler = useCallback(debounce((radius) =>
-        setFinalRadius(radius)
-        , 1000), []);
+    const updateRadiusHandler = useMemo(() =>
+        debounce((radius) =>
+            setFinalRadius(radius)
+            , 1000), []);
 
     useEffect(() => {
         if (currentLocation !== null) {
