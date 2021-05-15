@@ -30,8 +30,7 @@ function Map() {
 
 
     const getCurrentLocationHandler = useCallback((location) => {
-        // setCurrentLocation(location);
-        console.log(location);
+        setCurrentLocation(location);
     }, []);
 
     const getCategoriesHandler = useCallback((checkboxCategory) => {
@@ -98,13 +97,13 @@ function Map() {
                 />
 
                 {fetchedPlaces.map((place) => {
-                    let { Id, name, categories, lat, lng } = place;
+                    let { id, name, categories, lat, lng } = place;
 
                     let icon = mapServices.getMarkerIcon();
 
                     return (
                         <Marker
-                            key={Id}
+                            key={id}
                             position={[lat, lng]}
                             categories={categories}
                             icon={icon}>
