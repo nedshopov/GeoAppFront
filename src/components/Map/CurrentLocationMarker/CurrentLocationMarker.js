@@ -3,12 +3,12 @@ import { useEffect } from 'react';
 
 import useGeolocation from '../../../hooks/useGeolocation'
 
-function CurrentLocationMarker({ getCurrentLocation, radius }) {
+function CurrentLocationMarker({ getCurrentLocationHandler, radius }) {
     const currentLocation = useGeolocation();
 
     useEffect(() => {
-        getCurrentLocation(currentLocation);
-    }, [currentLocation])
+        getCurrentLocationHandler(currentLocation);
+    }, [currentLocation, getCurrentLocationHandler])
 
     return currentLocation === null ? null : (
         <>

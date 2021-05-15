@@ -1,24 +1,24 @@
 import { useState, useEffect } from 'react';
-import {useMap} from 'react-leaflet';
+import { useMap } from 'react-leaflet';
 
 const useGeolocation = () => {
-    const [currentPosition, setCurrentPosition] = useState(null)
+  const [currentPosition, setCurrentPosition] = useState(null)
 
-    const map = useMap();
+  const map = useMap();
 
-    useEffect(() => {
-      map.locate().on("locationfound", function (e) {
-        setCurrentPosition(e.latlng);
-        map.flyTo(e.latlng, map.getZoom());
-      });
-      return function cleanup() {
-        map.stopLocate();
-      };
-    }, [map]);
+  useEffect(() => {
+    map.locate().on("locationfound", function (e) {
+      setCurrentPosition(e.latlng);
+      map.flyTo(e.latlng, map.getZoom());
+    });
+    return function cleanup() {
+      map.stopLocate();
+    };
+  }, [map]);
 
-    return currentPosition === null
-        ? null
-        : currentPosition
+  return currentPosition === null
+    ? null
+    : currentPosition
 }
 
 export default useGeolocation

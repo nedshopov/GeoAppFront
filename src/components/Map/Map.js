@@ -29,20 +29,22 @@ function Map() {
     const [finalRadius, setFinalRadius] = useState(1); // Set the debounced final radius to fetch
 
 
-    const getCurrentLocationHandler = (location) => {
+    const getCurrentLocationHandler = useCallback((location) => {
         setCurrentLocation(location);
-    }
+    }, []);
 
-    const getCategoriesHandler = (checkboxCategory) => {
+    const getCategoriesHandler = useCallback((checkboxCategory) => {
         setCategories(prevState => [...prevState, checkboxCategory])
-    }
+    }, []);
 
-    const removeCategoriesHandler = (checkboxCategory) => {
+    const removeCategoriesHandler = useCallback((checkboxCategory) => {
         setCategories(prevState => prevState.filter(x => x !== checkboxCategory))
-    }
+    }, []);
 
-    const updateRadiusHandler = useCallback(debounce((radius) => setFinalRadius(radius)
-        , 1000), []);
+    const updateRadiusHandler = useCallback((radius) => {
+        debounce((radius) => setFinalRadius(radius)
+            , 1000)
+    }, []);
 
     useEffect(() => {
         if (currentLocation !== null) {
@@ -111,7 +113,7 @@ function Map() {
 
                 })}
 
-                <CurrentLocationMarker getCurrentLocation={getCurrentLocationHandler} radius={radius} />
+                <CurrentLocationMarker getCurrentLocationHandler={getCurrentLocationHandler} radius={radius} />
 
             </MapContainer>
 
