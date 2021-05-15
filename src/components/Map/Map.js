@@ -7,7 +7,7 @@ import style from './Map.module.css'
 
 // SERVICES
 import mapServices from '../../services/mapServices';
-import dataGraph from '../../dataGraph/dataGraph';
+import remoteDataService from '../../services/remoteDataService';
 
 // COMPONENTS
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
@@ -21,8 +21,6 @@ import categoriesList from '../../config/categories';
 const defaultLat = 42.765833;
 const defaultLng = 25.238611;
 
-const dataService = new dataGraph();
-
 function Map() {
     const [fetchedPlaces, setFetchedPlaces] = useState([]); // Set places after fetching
     const [currentLocation, setCurrentLocation] = useState(null); // Set current location if allowed by user
@@ -32,7 +30,8 @@ function Map() {
 
 
     const getCurrentLocationHandler = useCallback((location) => {
-        setCurrentLocation(location);
+        // setCurrentLocation(location);
+        console.log(location);
     }, []);
 
     const getCategoriesHandler = useCallback((checkboxCategory) => {
@@ -43,14 +42,12 @@ function Map() {
         setCategories(prevState => prevState.filter(x => x !== checkboxCategory))
     }, []);
 
-    const updateRadiusHandler = useCallback((radius) => {
-        debounce((radius) => setFinalRadius(radius)
-            , 1000)
-    }, []);
+    const updateRadiusHandler = useCallback(debounce((radius) => setFinalRadius(radius)
+        , 1000), []);
 
     useEffect(() => {
         if (currentLocation !== null) {
-            dataService.getInRadius(categories, currentLocation.lat, currentLocation.lng, finalRadius)
+            remoteDataService.getInRadius(categories, currentLocation.lat, currentLocation.lng, finalRadius)
                 .then(res => {
                     setFetchedPlaces(res.data);
                 })
