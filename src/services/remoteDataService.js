@@ -9,7 +9,6 @@ function getAll() {
 
 function getInRadius(categories, lat, lng, radius) {
     categories = categories.join(`,`);
-
     return axios
         .get(baseURL + `filter`, {
             params: {
