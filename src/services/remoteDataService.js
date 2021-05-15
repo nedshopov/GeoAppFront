@@ -19,12 +19,12 @@ function getInRadius(categories, lat, lng, radius) {
                 lng,
                 radius
             }
-        })
+        });
 }
 
-const funcs = {
+const remoteDataService = {
     getAll,
     getInRadius
-}
+};
 
-export default funcs;
+export default remoteDataService;

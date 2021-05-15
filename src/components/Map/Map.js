@@ -7,7 +7,7 @@ import style from './Map.module.css'
 
 // SERVICES
 import mapServices from '../../services/mapServices';
-import fetchServices from '../../services/fetchServices';
+import dataGraph from '../../dataGraph/dataGraph';
 
 // COMPONENTS
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
@@ -20,6 +20,8 @@ import categoriesList from '../../config/categories';
 
 const defaultLat = 42.765833;
 const defaultLng = 25.238611;
+
+const dataService = new dataGraph();
 
 function Map() {
     const [fetchedPlaces, setFetchedPlaces] = useState([]); // Set places after fetching
@@ -46,7 +48,7 @@ function Map() {
 
     useEffect(() => {
         if (currentLocation !== null) {
-            fetchServices.getInRadius(categories, currentLocation.lat, currentLocation.lng, finalRadius)
+            dataService.getInRadius(categories, currentLocation.lat, currentLocation.lng, finalRadius)
                 .then(res => {
                     setFetchedPlaces(res.data);
                 })
