@@ -13,7 +13,7 @@ function Checkbox({categoryInfo, category, getCategoriesHandler, removeCategorie
         } else {
             removeCategoriesHandler(category);
         }
-    }, [isChecked])
+    }, [isChecked, category, getCategoriesHandler, removeCategoriesHandler])
 
     return (
         <li>
