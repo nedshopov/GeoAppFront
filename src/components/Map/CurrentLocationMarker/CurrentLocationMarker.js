@@ -8,7 +8,7 @@ function CurrentLocationMarker({ getCurrentLocationHandler, radius }) {
 
     useEffect(() => {
         getCurrentLocationHandler(currentLocation);
-    }, [currentLocation])
+    }, [currentLocation, getCurrentLocationHandler])
 
     return currentLocation === null ? null : (
         <>
