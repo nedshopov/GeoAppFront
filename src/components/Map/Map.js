@@ -30,8 +30,7 @@ function Map() {
 
 
     const getCurrentLocationHandler = useCallback((location) => {
-        // setCurrentLocation(location);
-        console.log(location);
+        setCurrentLocation(location);
     }, []);
 
     const getCategoriesHandler = useCallback((checkboxCategory) => {
