@@ -1,22 +1,16 @@
 // LIBRARIES
-import { useEffect, useState, useCallback, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import debounce from 'lodash/debounce';
 
-// CSS
-import style from './Map.module.css'
-
 // SERVICES
-import mapServices from '../../services/mapServices';
 import remoteDataService from '../../services/remoteDataService';
 
 // COMPONENTS
-import { MapContainer, TileLayer, Marker, Popup, LayersControl } from 'react-leaflet';
+import { MapContainer, TileLayer, LayersControl } from 'react-leaflet';
 import CurrentLocationMarker from './CurrentLocationMarker/CurrentLocationMarker';
-import Checkbox from './Checkbox/Checkbox';
-
-// CONFIGS
-import categoriesList from '../../config/categories';
-
+import RadiusSlider from './RadiusSlider/RadiusSlider';
+import CheckboxesContainer from './CheckboxesContainer/CheckboxesContainer';
+import LocationMarker from './LocationMarker/LocationMarker';
 
 const defaultLat = 42.765833;
 const defaultLng = 25.238611;
@@ -26,29 +20,22 @@ function Map() {
     const [currentLocation, setCurrentLocation] = useState(null); // Set current location if allowed by user
     const [radius, setRadius] = useState(1); // Set the raidus
     const [categories, setCategories] = useState([]); // Set the categories to fetch
-    const [finalRadius, setFinalRadius] = useState(1); // Set the debounced final radius to fetch
+    const [debouncedRadius, setDebouncedRadius] = useState(1); // Set the debounced final radius to fetch
 
-
-    const getCurrentLocationHandler = useCallback((location) => {
-        setCurrentLocation(location);
-    }, []);
-
-    const getCategoriesHandler = useCallback((checkboxCategory) => {
-        setCategories(prevState => [...prevState, checkboxCategory])
-    }, []);
-
-    const removeCategoriesHandler = useCallback((checkboxCategory) => {
-        setCategories(prevState => prevState.filter(x => x !== checkboxCategory))
-    }, []);
-
-    const updateRadiusHandler = useMemo(() =>
+    const debounceRadiusHandler = useMemo(() =>
         debounce((radius) =>
-            setFinalRadius(radius)
+            setDebouncedRadius(radius)
             , 1000), []);
 
     useEffect(() => {
         if (currentLocation !== null) {
-            remoteDataService.getInRadius(categories, currentLocation.lat, currentLocation.lng, finalRadius)
+            remoteDataService
+                .getInRadius(
+                    categories,
+                    currentLocation.lat,
+                    currentLocation.lng,
+                    debouncedRadius
+                )
                 .then(res => {
                     // TODO: update in future
                     if (res.data.length === 2 && res.data[0]) { setFetchedPlaces(res.data[0]); }
@@ -58,39 +45,10 @@ function Map() {
                 .catch(err => console.log(err))
         }
 
-    }, [currentLocation, finalRadius, categories])
+    }, [currentLocation, debouncedRadius, categories])
 
     return (
         <>
-            <div className={style.radiusInputContainer}>
-                <input
-                    className={style.radiusInput}
-                    type="range"
-                    min={1}
-                    max={20}
-                    value={radius}
-                    name="radius"
-                    id="radius"
-                    onChange={(e) => {
-                        setRadius(Number(e.target.value))
-                        updateRadiusHandler(Number(e.target.value))
-                    }}
-                />
-                <span>{`${radius} km`}</span>
-            </div>
-
-            <div className={style.checkboxesContainer}>
-                {Object.entries(categoriesList).map(([category, categoryInfo]) => (
-                    <Checkbox
-                        key={category}
-                        categoryInfo={categoryInfo}
-                        category={category}
-                        getCategoriesHandler={getCategoriesHandler}
-                        removeCategoriesHandler={removeCategoriesHandler}
-                    />
-                ))}
-            </div>
-
             <MapContainer
                 center={[defaultLat, defaultLng]}
                 zoom={8}
@@ -126,29 +84,17 @@ function Map() {
                     </LayersControl.BaseLayer>
                 </LayersControl>
 
-                {fetchedPlaces.map((place) => {
-                    let { id, name, categories, lat, lng } = place;
+                {fetchedPlaces.map((place) => (
+                    <LocationMarker key={place.id} placeInfo={place} />
+                ))}
 
-                    let icon = mapServices.getMarkerIcon();
-
-                    return (
-                        <Marker
-                            key={id}
-                            position={[lat, lng]}
-                            categories={categories}
-                            icon={icon}>
-                            <Popup>
-                                {name}
-                            </Popup>
-                        </Marker>
-                    )
-
-                })}
-
-                <CurrentLocationMarker getCurrentLocationHandler={getCurrentLocationHandler} radius={radius} />
+                <CurrentLocationMarker getCurrentLocationHandler={setCurrentLocation} radius={radius} />
 
             </MapContainer>
 
+            <RadiusSlider debounceRadiusHandler={debounceRadiusHandler} getRadiusHandler={setRadius} />
+
+            <CheckboxesContainer getCategoriesHandler={setCategories} removeCategoriesHandler={setCategories} />
         </>
     );
 }
