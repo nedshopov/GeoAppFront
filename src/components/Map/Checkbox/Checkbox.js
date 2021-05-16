@@ -9,9 +9,9 @@ function Checkbox({categoryInfo, category, getCategoriesHandler, removeCategorie
 
     useEffect(() => {
         if (isChecked === true) {
-            getCategoriesHandler(category);
+            getCategoriesHandler(prevState => [...prevState, category]);
         } else {
-            removeCategoriesHandler(category);
+            removeCategoriesHandler(prevState => prevState.filter(x => x !== category));
         }
     }, [isChecked, category, getCategoriesHandler, removeCategoriesHandler])
 
