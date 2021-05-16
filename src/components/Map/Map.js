@@ -10,7 +10,7 @@ import mapServices from '../../services/mapServices';
 import remoteDataService from '../../services/remoteDataService';
 
 // COMPONENTS
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, LayersControl } from 'react-leaflet';
 import CurrentLocationMarker from './CurrentLocationMarker/CurrentLocationMarker';
 import Checkbox from './Checkbox/Checkbox';
 
@@ -91,11 +91,40 @@ function Map() {
                 ))}
             </div>
 
-            <MapContainer center={[defaultLat, defaultLng]} zoom={7} scrollWheelZoom={true} doubleClickZoom={false}>
-                <TileLayer
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
+            <MapContainer
+                center={[defaultLat, defaultLng]}
+                zoom={8}
+                scrollWheelZoom={true}
+                doubleClickZoom={false}
+            >
+                <LayersControl>
+                    <LayersControl.BaseLayer checked position="topright" name="Base Map">
+                        <TileLayer
+                            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                    </LayersControl.BaseLayer>
+
+                    <LayersControl.BaseLayer
+                        position="topright"
+                        name="Satellite Map">
+                        <TileLayer
+                            attribution='Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+                            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+                            maxZoom={17}
+                        />
+                    </LayersControl.BaseLayer>
+
+                    <LayersControl.BaseLayer
+                        position="topright"
+                        name="Topographic Map">
+                        <TileLayer
+                            attribution='Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+                            url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
+                            maxZoom={17}
+                        />
+                    </LayersControl.BaseLayer>
+                </LayersControl>
 
                 {fetchedPlaces.map((place) => {
                     let { id, name, categories, lat, lng } = place;
