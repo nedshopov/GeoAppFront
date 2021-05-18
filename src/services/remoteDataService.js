@@ -1,6 +1,9 @@
 import axios from 'axios';
 
 const baseURL = 'https://nedshopov.com/geoapi/';
+const headers = {
+    "Content-Type": "text/plain"
+};
 
 function getAll() {
     return axios
@@ -17,7 +20,8 @@ function getInRadius(categories, lat, lng, radius) {
                 lng,
                 radius
             }
-        });
+        },
+            { headers });
 }
 
 const remoteDataService = {
