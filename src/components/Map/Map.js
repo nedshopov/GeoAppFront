@@ -3,7 +3,7 @@ import { useEffect, useState, useMemo } from 'react';
 import debounce from 'lodash/debounce';
 
 // SERVICES
-import remoteDataService from '../../services/remoteDataService';
+import DataGraph from '../../dataGraph/dataGraph';
 
 // COMPONENTS
 import { MapContainer, TileLayer, LayersControl } from 'react-leaflet';
@@ -14,6 +14,8 @@ import LocationMarker from './LocationMarker/LocationMarker';
 
 const defaultLat = 42.765833;
 const defaultLng = 25.238611;
+
+const dataGraph = new DataGraph();
 
 function Map() {
     const [fetchedPlaces, setFetchedPlaces] = useState([]); // Set places after fetching
@@ -29,7 +31,7 @@ function Map() {
 
     useEffect(() => {
         if (currentLocation !== null) {
-            remoteDataService
+            dataGraph
                 .getInRadius(
                     categories,
                     currentLocation.lat,
@@ -37,10 +39,7 @@ function Map() {
                     debouncedRadius
                 )
                 .then(res => {
-                    // TODO: update in future
-                    if (res.data.length === 2 && res.data[0]) { setFetchedPlaces(res.data[0]); }
-                    else { setFetchedPlaces(res.data); }
-
+                    setFetchedPlaces(res);
                 })
                 .catch(err => console.log(err))
         }
