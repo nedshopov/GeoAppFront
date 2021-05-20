@@ -1,13 +1,13 @@
 import L from 'leaflet'
 
-function getMarkerIcon() {
+function getMarkerIcon(category) {
     let myIcon = L.icon({
-        iconUrl: 'map_pin_icon.svg.png',
+        iconUrl: `mapicons/${category}.png`,
         // iconSize: [38, 95],
         iconAnchor: [15, 42],
         popupAnchor: [0, -42],
     });
-
+    console.log(myIcon);
     return myIcon;
 }
 

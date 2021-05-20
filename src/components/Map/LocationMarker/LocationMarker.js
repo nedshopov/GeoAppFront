@@ -5,7 +5,7 @@ import { Marker, Popup } from 'react-leaflet';
 function LocationMarker({placeInfo}) {
     const { id, name, categories, lat, lng } = placeInfo;
 
-    const icon = mapServices.getMarkerIcon();
+    const icon = mapServices.getMarkerIcon(categories.split(',')[0]);
 
     return (
         <Marker
