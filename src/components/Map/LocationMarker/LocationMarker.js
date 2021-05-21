@@ -1,32 +1,13 @@
 // SERVICES
 import mapServices from '../../../services/mapServices';
-import { Marker, Tooltip, useMapEvents } from 'react-leaflet';
 
-// LIBRARIES
-import { useState, useEffect } from 'react';
+//LIBRARIES
+import { Marker, Tooltip } from 'react-leaflet';
 
-
-function LocationMarker({ placeInfo }) {
+function LocationMarker({ placeInfo, showTooltips }) {
     const { id, name, categories, lat, lng } = placeInfo;
-    const [popupActive, setPopupActive] = useState(false);
 
     const icon = mapServices.getMarkerIcon(categories.split(',')[0]);
-
-    const map = useMapEvents({
-        zoom(e) {
-            if (map.getZoom() >= 16) {
-                setPopupActive(true);
-            } else if (map.getZoom() < 16) {
-                setPopupActive(false);
-            }
-        }
-    })
-
-    useEffect(() => {
-        if (map.getZoom() >= 16) {
-            setPopupActive(true);
-        }
-    }, [])
 
     return (
         <Marker
@@ -35,7 +16,7 @@ function LocationMarker({ placeInfo }) {
             categories={categories}
             icon={icon}
         >
-            {popupActive
+            {showTooltips
                 ? <Tooltip
                     direction="bottom"
                     permanent
