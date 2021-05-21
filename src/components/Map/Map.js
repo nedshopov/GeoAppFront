@@ -10,7 +10,7 @@ import { MapContainer, TileLayer, LayersControl } from 'react-leaflet';
 import CurrentLocationMarker from './CurrentLocationMarker/CurrentLocationMarker';
 import RadiusSlider from './RadiusSlider/RadiusSlider';
 import CheckboxesContainer from './CheckboxesContainer/CheckboxesContainer';
-import LocationMarker from './LocationMarker/LocationMarker';
+import LocationMarkersContainer from './LocationMarkersContainer/LocationMarkersContainer';
 
 const defaultLat = 42.765833;
 const defaultLng = 25.238611;
@@ -84,9 +84,7 @@ function Map() {
                     </LayersControl.BaseLayer>
                 </LayersControl>
 
-                {fetchedPlaces.map((place) => (
-                    <LocationMarker key={place.id} placeInfo={place} />
-                ))}
+                <LocationMarkersContainer fetchedPlaces={fetchedPlaces} />
 
                 <CurrentLocationMarker getCurrentLocationHandler={setCurrentLocation} radius={radius} />
 
