@@ -8,20 +8,19 @@ import Checkbox from '../Checkbox/Checkbox';
 import categoriesList from '../../../config/categories';
 
 
-function CheckboxesContainer({getCategoriesHandler, removeCategoriesHandler}) {
-
+function CheckboxesContainer({ getCategoriesHandler, removeCategoriesHandler }) {
     return (
         <div className={style.checkboxesContainer}>
-        {Object.entries(categoriesList).map(([category, categoryInfo]) => (
-            <Checkbox
-                key={category}
-                categoryInfo={categoryInfo}
-                category={category}
-                getCategoriesHandler={getCategoriesHandler}
-                removeCategoriesHandler={removeCategoriesHandler}
-            />
-        ))}
-    </div>
+            {Object.entries(categoriesList).map(([category, categoryInfo]) => (
+                <Checkbox
+                    key={category}
+                    categoryInfo={categoryInfo}
+                    category={category}
+                    getCategoriesHandler={getCategoriesHandler}
+                    removeCategoriesHandler={removeCategoriesHandler}
+                />
+            ))}
+        </div>
     )
 }
 
