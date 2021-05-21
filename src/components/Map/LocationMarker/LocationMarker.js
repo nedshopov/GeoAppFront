@@ -13,8 +13,7 @@ function LocationMarker({ placeInfo }) {
     const icon = mapServices.getMarkerIcon(categories.split(',')[0]);
 
     const map = useMapEvents({
-        zoomend(e) {
-            console.log(map.getZoom());
+        zoom(e) {
             if (map.getZoom() >= 16) {
                 setPopupActive(true);
             } else if (map.getZoom() < 16) {
