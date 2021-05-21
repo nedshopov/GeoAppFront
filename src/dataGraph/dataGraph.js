@@ -5,10 +5,11 @@ export default class dataGraph {
         this.remote = true;
         this.cache = {};
     }
-    async getInRadius(categories, lat, lng, radius) {
+    async getInRadius(categories, lat, lng, radius, debouncedRadius) {
+
         const getData = async () => {
             return this.remote
-                ? remoteDataService.getInRadius(categories, lat, lng, radius)
+                ? remoteDataService.getInRadius(categories, lat, lng, debouncedRadius)
                 : [];
         }
 
@@ -17,7 +18,7 @@ export default class dataGraph {
         }
 
         const requestKey = `${categories.join()}${lat}${lng}`;
-        if (!this.cache[requestKey] || this.cache[requestKey]?.radius < radius) {
+        if (!this.cache[requestKey] || this.cache[requestKey]?.radius < debouncedRadius) {
             this.cache[requestKey] = { radius, data: await getData() }
         }
 
