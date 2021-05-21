@@ -7,7 +7,7 @@ function getMarkerIcon(category) {
         iconAnchor: [15, 42],
         popupAnchor: [0, -42],
     });
-    console.log(myIcon);
+
     return myIcon;
 }
 

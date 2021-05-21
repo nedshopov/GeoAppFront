@@ -36,6 +36,7 @@ function Map() {
                     categories,
                     currentLocation.lat,
                     currentLocation.lng,
+                    radius,
                     debouncedRadius
                 )
                 .then(res => {
@@ -44,7 +45,7 @@ function Map() {
                 .catch(err => console.log(err))
         }
 
-    }, [currentLocation, debouncedRadius, categories])
+    }, [currentLocation, radius, debouncedRadius, categories])
 
     return (
         <>
