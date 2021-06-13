@@ -1,32 +1,32 @@
 import LocationMarker from '../LocationMarker/LocationMarker';
 
 // LIBRARIES
-import { useState, useEffect } from 'react';
-import { useMapEvents } from 'react-leaflet';
+import { useState } from 'react';
+// import { useMapEvents } from 'react-leaflet';
 
 function LocationMarkersContainer({ fetchedPlaces }) {
-    const [showTooltips, setShowTooltips] = useState(false);
+    const [permanentTooltips, setPermanentTooltips] = useState(false);
 
-    const map = useMapEvents({
-        zoom(e) {
-            if (map.getZoom() >= 16) {
-                setShowTooltips(true);
-            } else if (map.getZoom() < 16) {
-                setShowTooltips(false);
-            }
-        }
-    })
+    // const map = useMapEvents({
+    //     zoom(e) {
+    //         if (map.getZoom() >= 16) {
+    //             setPermanentTooltips(true);
+    //         } else if (map.getZoom() < 16) {
+    //             setPermanentTooltips(false);
+    //         }
+    //     }
+    // })
 
-    useEffect(() => {
-        if (map.getZoom() >= 16) {
-            setShowTooltips(true);
-        }
-    }, [map])
+    // useEffect(() => {
+    //     if (map.getZoom() >= 16) {
+    //         setPermanentTooltips(true);
+    //     }
+    // }, [map])
 
     return (
         <>
             {fetchedPlaces.map((place) => (
-                <LocationMarker key={place.id} placeInfo={place} showTooltips={showTooltips}/>
+                <LocationMarker key={place.id} placeInfo={place}/>
             ))}
         </>
     )

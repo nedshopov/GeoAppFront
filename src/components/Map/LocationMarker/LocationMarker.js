@@ -4,7 +4,7 @@ import mapServices from '../../../services/mapServices';
 //LIBRARIES
 import { Marker, Tooltip } from 'react-leaflet';
 
-function LocationMarker({ placeInfo, showTooltips }) {
+function LocationMarker({ placeInfo }) {
     const { id, name, categories, lat, lng } = placeInfo;
 
     const icon = mapServices.getMarkerIcon(categories.split(',')[0]);
@@ -16,15 +16,11 @@ function LocationMarker({ placeInfo, showTooltips }) {
             categories={categories}
             icon={icon}
         >
-            {showTooltips
-                ? <Tooltip
-                    direction="bottom"
-                    permanent
-                >
-                    {name}
-                </Tooltip>
-                : null
-            }
+            <Tooltip
+                direction="bottom"
+            >
+                {name}
+            </Tooltip>
         </Marker>
     )
 }
