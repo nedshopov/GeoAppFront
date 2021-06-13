@@ -1,4 +1,4 @@
 # GeoAppFront
 ## Prototype Preview
 
-<img src="public/preview.gif" alt="sampleReactNativeProject" height="720">
+<img src="public/preview.gif" alt="sampleReactNativeProject">
